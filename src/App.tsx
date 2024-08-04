@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+const WORKER_URL = 'https://green-snow-8c39.potato0.workers.dev'; 
+
+
 function App() {
   const [screenshots, setScreenshots] = useState([]);
   const [selectedScreenshot, setSelectedScreenshot] = useState<{filename:string, url:string}|null>(null);
@@ -11,7 +14,7 @@ function App() {
 
   const fetchScreenshots = async () => {
     try {
-      const response = await axios.get('/api/screenshots');
+      const response = await axios.get(`${WORKER_URL}/screenshots`);
       setScreenshots(response.data);
     } catch (error) {
       console.error('Error fetching screenshots:', error);
@@ -20,7 +23,7 @@ function App() {
 
   const fetchScreenshot = async (filename: string) => {
     try {
-      const response = await axios.get(`/api/screenshot/${filename}`, {
+      const response = await axios.get(`${WORKER_URL}/screenshot/${filename}`, {
         responseType: 'blob',
       });
       const url = URL.createObjectURL(response.data);
